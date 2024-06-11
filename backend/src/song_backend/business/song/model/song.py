@@ -7,3 +7,4 @@ class Song:
     # TODO author id + other information
     author: str
     title: str
+    country_list: list[str]
