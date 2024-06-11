@@ -1,4 +1,6 @@
 from uuid import uuid4
+
+from sqlalchemy import Engine
 from song_backend.business.song.lyrics.lyrics_command import SongSearchAclCommand
 from song_backend.business.song.lyrics.lyrics_search_acl_adapter import LyricsSearchAclAdapter
 from song_backend.business.song.lyrics_analyser.lyrics_analyser_acl_adapter import (
@@ -19,6 +21,8 @@ from song_backend.business.song.storage.dummy.song_storage_dummy_adapter import 
 )
 from song_backend.business.song.storage.lyrics_storage_adapter import LyricsStorageAdapter
 from song_backend.business.song.storage.song_storage_adapter import SongStorageAdapter
+from song_backend.business.song.storage.sql.lyrics_storage_adapter import LyricsStorageSqlAdapter
+from song_backend.business.song.storage.sql.song_storage_sql_adapter import SongStorageSqlAdapter
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -95,12 +99,17 @@ class SongService:
 class SongServiceFactory:
     @staticmethod
     def create(
+        db_engine: Engine | None,
         lyrics_adapter: LyricsSearchAclAdapter,  # this acl is selected by final application
         lyrics_analyser_adapter: LyricsAnalyserAclAdapter,  # this acl is selected by final application
     ) -> SongService:
         return SongService(
             lyrics_adapter=lyrics_adapter,
             lyrics_analyser_adapter=lyrics_analyser_adapter,
-            song_storage=SongStorageDummyAdapter(),
-            lyrics_storage=LyricsStorageDummyAdapter(),
+            song_storage=SongStorageDummyAdapter()
+            if db_engine is None
+            else SongStorageSqlAdapter(db_engine),
+            lyrics_storage=LyricsStorageDummyAdapter()
+            if db_engine is None
+            else LyricsStorageSqlAdapter(db_engine),
         )

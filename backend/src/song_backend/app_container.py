@@ -1,3 +1,4 @@
+from sqlalchemy import URL, Engine, create_engine
 from song_backend.app_config_loader import AppConfigLoader
 from song_backend.business.song.lyrics.impl.lyrics_search_acl_dummy_adapter import (
     LyricsSearchAclDummyAdapter,
@@ -15,6 +16,8 @@ from song_backend.business.song.song_service import SongService, SongServiceFact
 class AppContainer:
     # App config
     _config: AppConfigLoader
+    # DB
+    _db_engine: Engine
     # Acl
     _lyrics_acl: LyricsSearchAclAdapter | None = None
     _lyrics_analyser_acl: LyricsAnalyserAclAdapter | None = None
@@ -24,8 +27,18 @@ class AppContainer:
     def __init__(self) -> None:
         self._config = AppConfigLoader()  # type: ignore
 
+        sql_db_url: URL = URL.create(
+            self._config.sql.dialect,
+            username=self._config.sql.username,
+            password=self._config.sql.password,  # plain (unescaped) text
+            host=self._config.sql.host,
+            database=self._config.sql.database,
+        )
+
+        self._db_engine = create_engine(sql_db_url, echo=True)
+
         self._song_service = SongServiceFactory.create(
-            self._get_lyrics_acl(), self._get_lyrics_analyser_acl()
+            self._db_engine, self._get_lyrics_acl(), self._get_lyrics_analyser_acl()
         )
 
     def _get_lyrics_acl(self) -> LyricsSearchAclAdapter:
