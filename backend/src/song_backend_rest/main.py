@@ -20,6 +20,7 @@ def _load_modules(app: FastAPI, root_module: object):
 
 
 def _app_factory() -> FastAPI:
+    # TODO add excepcion handler
     result = FastAPI(
         title="Song Lyrics Analyser",
         description="Another POC",

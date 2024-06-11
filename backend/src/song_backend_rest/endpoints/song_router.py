@@ -13,7 +13,6 @@ ROUTER_PREFIX: Final[str] = "/song"
 router = APIRouter(
     prefix=ROUTER_PREFIX,
     tags=[ROUTER_TAG],
-    # route_class= missing # exception handler
 )
 
 
