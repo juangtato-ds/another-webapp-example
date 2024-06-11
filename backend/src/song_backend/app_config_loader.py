@@ -4,7 +4,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class AppLyricConfig(BaseSettings):
-    source: Literal["dummy"] | Literal["musixmatch"] = Field("dummy", description="Source for the lyrics")
+    source: Literal["dummy"] | Literal["musixmatch"] = Field(
+        "dummy", description="Source for the lyrics"
+    )
     apikey: str | None = Field(None, description="API key for accessing lyrics services")
 
     model_config = SettingsConfigDict(env_prefix="APP_LYRICS_")

@@ -6,5 +6,7 @@ from song_backend.business.song.lyrics.lyrics_search_result import SongWithLyric
 
 class LyricsSearchAclAdapter(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    async def find_song_and_lyrics(self, command: SongSearchAclCommand) -> SongWithLyricsSearchResult:
+    async def find_song_and_lyrics(
+        self, command: SongSearchAclCommand
+    ) -> SongWithLyricsSearchResult:
         raise NotImplementedError

@@ -31,7 +31,9 @@ class SongService:
             SongSearchAclCommand(author=command.author, song_title=command.title)
         )
         # TODO do something with the analysis
-        analysis = await self._lyrics_analyser_adapter.analyse(LyricsAnalyserCommand(lyrics=lyrics_search.lyrics))
+        analysis = await self._lyrics_analyser_adapter.analyse(
+            LyricsAnalyserCommand(lyrics=lyrics_search.lyrics)
+        )
 
         return Lyrics(
             lyrics=lyrics_search.lyrics,
@@ -45,4 +47,6 @@ class SongServiceFactory:
         lyrics_adapter: LyricsSearchAclAdapter,  # this acl is selected by final application
         lyrics_analyser_adapter: LyricsAnalyserAclAdapter,  # this acl is selected by final application
     ) -> SongService:
-        return SongService(lyrics_adapter=lyrics_adapter, lyrics_analyser_adapter=lyrics_analyser_adapter)
+        return SongService(
+            lyrics_adapter=lyrics_adapter, lyrics_analyser_adapter=lyrics_analyser_adapter
+        )

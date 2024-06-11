@@ -1,10 +1,14 @@
 from song_backend.app_config_loader import AppConfigLoader
-from song_backend.business.song.lyrics.impl.lyrics_search_acl_dummy_adapter import LyricsSearchAclDummyAdapter
+from song_backend.business.song.lyrics.impl.lyrics_search_acl_dummy_adapter import (
+    LyricsSearchAclDummyAdapter,
+)
 from song_backend.business.song.lyrics.lyrics_search_acl_adapter import LyricsSearchAclAdapter
 from song_backend.business.song.lyrics_analyser.impl.lyrics_analyser_acl_dummy_adapter import (
     LyricsAnalyserAclDummyAdapter,
 )
-from song_backend.business.song.lyrics_analyser.lyrics_analyser_acl_adapter import LyricsAnalyserAclAdapter
+from song_backend.business.song.lyrics_analyser.lyrics_analyser_acl_adapter import (
+    LyricsAnalyserAclAdapter,
+)
 from song_backend.business.song.song_service import SongService, SongServiceFactory
 
 
@@ -20,11 +24,16 @@ class AppContainer:
     def __init__(self) -> None:
         self._config = AppConfigLoader()  # type: ignore
 
-        self._song_service = SongServiceFactory.create(self._get_lyrics_acl(), self._get_lyrics_analyser_acl())
+        self._song_service = SongServiceFactory.create(
+            self._get_lyrics_acl(), self._get_lyrics_analyser_acl()
+        )
 
     def _get_lyrics_acl(self) -> LyricsSearchAclAdapter:
         if self._lyrics_acl is None:
-            if self._config.lyrics.source == "musixmatch" and self._config.lyrics.apikey is not None:
+            if (
+                self._config.lyrics.source == "musixmatch"
+                and self._config.lyrics.apikey is not None
+            ):
                 raise NotImplementedError()
             else:
                 # fallback
@@ -33,7 +42,10 @@ class AppContainer:
 
     def _get_lyrics_analyser_acl(self) -> LyricsAnalyserAclAdapter:
         if self._lyrics_analyser_acl is None:
-            if self._config.lyrics_analyser.source == "openai" and self._config.lyrics_analyser.apikey is not None:
+            if (
+                self._config.lyrics_analyser.source == "openai"
+                and self._config.lyrics_analyser.apikey is not None
+            ):
                 raise NotImplementedError()
             else:
                 # fallback
