@@ -11,5 +11,5 @@ if __name__ == "__main__":
         host=config.app_rest_host,
         port=config.app_rest_port,
         reload=config.app_rest_reload,
-        log_level=config.app_rest_reload,
+        log_level=config.app_log_level,
     )
