@@ -5,7 +5,7 @@ from fastapi import APIRouter, status
 from song_backend.business.song.model.command import SongAddCommand
 from song_backend.business.song.model.lyrics import Lyrics
 from song_backend_rest.dependencies.core_dependencies import SongServiceDep
-from song_backend_rest.model.song import SongAddRequest, SongLyricsResponse, SongResponse
+from song_backend_rest.model.song import SongAddRequest, SongFullResponse, SongResponse
 
 
 ROUTER_TAG: Final[str] = "Song"
@@ -17,8 +17,8 @@ router = APIRouter(
 )
 
 
-def _map_song_lyrics_response(data: Lyrics) -> SongLyricsResponse:
-    return SongLyricsResponse(
+def _map_song_full_response(data: Lyrics) -> SongFullResponse:
+    return SongFullResponse(
         id=data.song.id,
         artist=data.song.author,
         title=data.song.title,
@@ -31,13 +31,13 @@ def _map_song_lyrics_response(data: Lyrics) -> SongLyricsResponse:
     "/",
     tags=[ROUTER_TAG],
     status_code=status.HTTP_201_CREATED,
-    response_model=SongLyricsResponse,
+    response_model=SongFullResponse,
 )
 async def add_song(
     song_service: SongServiceDep,
     request: SongAddRequest,
-) -> SongLyricsResponse:
-    return _map_song_lyrics_response(
+) -> SongFullResponse:
+    return _map_song_full_response(
         await song_service.add_song(SongAddCommand(author=request.artist, title=request.title))
     )
 
@@ -56,7 +56,7 @@ async def filter_songs(song_service: SongServiceDep) -> list[SongResponse]:
     "/{song_id}",
     tags=[ROUTER_TAG],
     status_code=status.HTTP_200_OK,
-    response_model=SongLyricsResponse,
+    response_model=SongFullResponse,
 )
-async def get_song_and_lyrics(song_id: str, song_service: SongServiceDep) -> SongLyricsResponse:
-    return _map_song_lyrics_response(song_service.get_lyrics(song_id))
+async def get_song_full_information(song_id: str, song_service: SongServiceDep) -> SongFullResponse:
+    return _map_song_full_response(song_service.get_lyrics(song_id))
