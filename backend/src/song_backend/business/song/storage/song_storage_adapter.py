@@ -12,3 +12,7 @@ class SongStorageAdapter(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def find_all(self) -> list[Song]:
         raise NotImplementedError()
+
+    @abc.abstractmethod
+    def find(self, song_id: str) -> Song | None:
+        raise NotImplementedError()

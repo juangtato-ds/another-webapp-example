@@ -1,8 +1,9 @@
 from typing import Final
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, status
 
 from song_backend.business.song.model.command import SongAddCommand
+from song_backend.business.song.model.lyrics import Lyrics
 from song_backend_rest.dependencies.core_dependencies import SongServiceDep
 from song_backend_rest.model.song import SongAddRequest, SongLyricsResponse, SongResponse
 
@@ -16,19 +17,28 @@ router = APIRouter(
 )
 
 
+def _map_song_lyrics_response(data: Lyrics) -> SongLyricsResponse:
+    return SongLyricsResponse(
+        id=data.song.id,
+        artist=data.song.author,
+        title=data.song.title,
+        lyrics=data.lyrics,
+        contry_list=data.song.country_list.copy(),
+    )
+
+
 @router.post(
     "/",
     tags=[ROUTER_TAG],
-    status_code=status.HTTP_200_OK,
+    status_code=status.HTTP_201_CREATED,
     response_model=SongLyricsResponse,
 )
 async def add_song(
     song_service: SongServiceDep,
     request: SongAddRequest,
 ) -> SongLyricsResponse:
-    result = await song_service.add_song(SongAddCommand(author=request.artist, title=request.title))
-    return SongLyricsResponse(
-        id=result.song.id, artist=result.song.author, title=result.song.title, lyrics=result.lyrics
+    return _map_song_lyrics_response(
+        await song_service.add_song(SongAddCommand(author=request.artist, title=request.title))
     )
 
 
@@ -40,3 +50,13 @@ async def add_song(
 )
 async def filter_songs(song_service: SongServiceDep) -> list[SongResponse]:
     return [SongResponse(id=s.id, artist=s.author, title=s.title) for s in song_service.find_all()]
+
+
+@router.get(
+    "/{song_id}",
+    tags=[ROUTER_TAG],
+    status_code=status.HTTP_200_OK,
+    response_model=SongLyricsResponse,
+)
+async def get_song_and_lyrics(song_id: str, song_service: SongServiceDep) -> SongLyricsResponse:
+    return _map_song_lyrics_response(song_service.get_lyrics(song_id))

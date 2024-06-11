@@ -41,6 +41,12 @@ class SongService:
         self._song_storage = song_storage
         self._lyrics_storage = lyrics_storage
 
+    def get(self, song_id: str) -> Song:
+        result = self._song_storage.find(song_id)
+        if result is None:
+            raise RuntimeError("Not found")  # TODO change the exception
+        return result
+
     async def add_song(self, command: SongAddCommand) -> Lyrics:
         """Add a song to the catalog.
 
@@ -75,6 +81,15 @@ class SongService:
 
     def find_all(self) -> list[Song]:  # only for first approach
         return self._song_storage.find_all()
+
+    def get_lyrics(self, song_id: str) -> Lyrics:
+        song = self.get(song_id)
+        lyrics = self._lyrics_storage.get_lyrics(song_id)
+        if lyrics is None:
+            raise RuntimeError(
+                "This is a bad error, we only accept songs with lyrics"
+            )  # TODO change to internal exception
+        return Lyrics(song=song, lyrics=lyrics)
 
 
 class SongServiceFactory:

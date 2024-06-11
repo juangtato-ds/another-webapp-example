@@ -14,3 +14,6 @@ class SongStorageDummyAdapter(SongStorageAdapter):
 
     def find_all(self) -> list[Song]:
         return list(self._storage.values())
+
+    def find(self, song_id: str) -> Song | None:
+        return self._storage.get(song_id)
