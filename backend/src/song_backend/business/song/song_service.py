@@ -62,17 +62,20 @@ class SongService:
         if not lyrics_search.lyrics.strip():
             raise RuntimeError("Song cannot be added: empty lyrics")
 
-        # TODO do something with the analysis
         analysis = await self._lyrics_analyser_adapter.analyse(
             LyricsAnalyserCommand(lyrics=lyrics_search.lyrics)
         )
+        # Clean country list and remove duplicates (just-in-case)
+        country_list = [
+            c for c in set(map(lambda c: c.strip().lower().capitalize(), analysis.country_list))
+        ]
 
         # At this point everything is fine
         song = Song(
             id=str(uuid4()),
             title=lyrics_search.title,
             author=lyrics_search.author,
-            country_list=analysis.country_list,
+            country_list=country_list,
         )
 
         self._song_storage.create_song(song)
