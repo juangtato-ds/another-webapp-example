@@ -67,6 +67,7 @@
               "buildTarget": "another-webapp-example:build:production"
             },
             "development": {
+              "proxyConfig": "proxy.conf.json",
               "buildTarget": "another-webapp-example:build:development"
             }
           },
