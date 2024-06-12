@@ -1,0 +1,35 @@
+<h1>Artist Catalog</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            @if (artistList().length) {
+
+            <ul>
+                @for (artist of artistList(); track artist) {
+                <li>
+                    <b>{{artist}}</b>
+                    <ol>
+                        @for (song of songMap[artist]; track $index) {
+                        <li>{{song.title}}
+                            <a [routerLink]="song.id">Check lyrics</a>
+                        </li>
+                        }
+                    </ol>
+                </li>
+                }
+            </ul>
+            } @else {
+            <p><b>No songs yet, add one in the button below</b></p>
+            }
+        </div>
+
+    </div>
+
+</div>
+
+<app-floating-buttons>
+    <button mat-fab class="ms-1" matTooltip="Add Song" matTooltipPosition="above" aria-label="Add Song" color="primary"
+        (click)="add()">
+        <mat-icon>add</mat-icon>
+    </button>
+</app-floating-buttons>

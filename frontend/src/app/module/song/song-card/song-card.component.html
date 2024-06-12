@@ -1,0 +1,9 @@
+<mat-card class="w-100">
+    <mat-card-header>
+        <mat-card-title>{{ song.title }}</mat-card-title>
+        <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+        <a mat-button [routerLink]="song.id">Check lyrics</a>
+    </mat-card-actions>
+</mat-card>

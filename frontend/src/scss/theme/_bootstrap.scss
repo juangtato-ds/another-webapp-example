@@ -1,0 +1,17 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap-reboot';
+@import '../../../node_modules/bootstrap/scss/bootstrap-grid';
+@import '../../../node_modules/bootstrap/scss/bootstrap-utilities';
+
+// Hack - Revert material anchor color
+a {
+
+    &.mat-button,
+    &.mat-raised-button,
+    &.mat-fab,
+    &.mat-mini-fab,
+    &.mat-list-item {
+        &:hover {
+            color: currentColor
+        }
+    }
+}
