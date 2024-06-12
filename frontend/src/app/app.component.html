@@ -11,4 +11,18 @@
             <mat-icon>home</mat-icon>
         </button>
     </mat-toolbar>
+    
+        <mat-sidenav-container class="sidenav-sidenav-container" autosize>
+            <mat-sidenav role="navigation" mode="side" opened>
+                <app-side-nav></app-side-nav>
+            </mat-sidenav>
+
+            <mat-sidenav-content>
+                <main>
+                    <router-outlet></router-outlet>
+                </main>
+            </mat-sidenav-content>
+
+        </mat-sidenav-container>
+    
 </div>

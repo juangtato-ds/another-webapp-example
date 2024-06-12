@@ -1,0 +1,18 @@
+<section>
+    <mat-nav-list>
+        <a mat-list-item class="sidenav-item" routerLink="/" (click)="navigate($event)">
+            <mat-icon mat-list-icon matTooltip="Go to home" matTooltipPosition="right">
+                home
+            </mat-icon>
+            <span class="label">Home</span>
+        </a>
+
+        <a mat-list-item routerLinkActive="active-link" class="sidenav-item" routerLink="/song" (click)="navigate($event)">
+            <mat-icon mat-list-icon matTooltip="List songs" matTooltipPosition="right">
+                library_music
+            </mat-icon>
+            <span class="label">Songs</span>
+        </a>
+
+    </mat-nav-list>
+</section>

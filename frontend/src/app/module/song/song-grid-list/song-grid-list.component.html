@@ -1,0 +1,31 @@
+<h1>Song Catalog</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <ng-container *ngTemplateOutlet="myCard"></ng-container>
+        </div>
+        <div class="col-4">
+            <ng-container *ngTemplateOutlet="myCard"></ng-container>
+        </div>
+        <div class="col-4">
+            <ng-container *ngTemplateOutlet="myCard"></ng-container>
+        </div>
+        <div class="col-4">
+            <ng-container *ngTemplateOutlet="myCard"></ng-container>
+        </div>
+        <div class="col-4">
+            <ng-container *ngTemplateOutlet="myCard"></ng-container>
+        </div>
+    </div>
+</div>
+
+<ng-template #myCard>
+    <app-song-card></app-song-card>
+</ng-template>
+
+<app-floating-buttons>
+    <button mat-fab class="ms-1" matTooltip="Add Song" matTooltipPosition="above" aria-label="Add Song"
+        color="primary">
+        <mat-icon>add</mat-icon>
+    </button>
+</app-floating-buttons>

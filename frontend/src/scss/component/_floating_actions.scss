@@ -1,0 +1,14 @@
+.floating-actions {
+  height: 70px;
+
+  .floating-buttons {
+    display: inline-flex;
+    align-items: end;
+    position: fixed;
+
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+}
