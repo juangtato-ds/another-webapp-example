@@ -2,22 +2,27 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
+            @if (artistList().length) {
+
             <ul>
                 @for (artist of artistList(); track artist) {
                 <li>
                     <b>{{artist}}</b>
                     <ol>
                         @for (song of songMap[artist]; track $index) {
-                            <li>{{song.title}} 
+                        <li>{{song.title}}
                             <a [routerLink]="song.id">Check lyrics</a>
-                            </li>
+                        </li>
                         }
                     </ol>
                 </li>
                 }
             </ul>
+            } @else {
+            <p><b>No songs yet, add one in the button below</b></p>
+            }
         </div>
-        
+
     </div>
 
 </div>

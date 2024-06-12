@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { SideNavComponent } from './layout/side-nav/side-nav.component';
 
 @Component({
@@ -12,6 +12,7 @@ import { SideNavComponent } from './layout/side-nav/side-nav.component';
   imports: [
     // Angular
     RouterOutlet,
+    RouterLink,
     // Material
     MatButtonModule,
     MatIconModule,
