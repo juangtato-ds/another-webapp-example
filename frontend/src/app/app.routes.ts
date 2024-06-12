@@ -19,7 +19,7 @@ export const routes: Routes = [
                 component: SongGridListComponent
             },
             {
-                path: ':songId',
+                path: ':' + SongDetailComponent.SONG_ID,
                 component: SongDetailComponent
             }
         ]
