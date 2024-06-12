@@ -1,0 +1,9 @@
+@use "sass:map";
+@use '@angular/material' as mat;
+
+// https://m1.material.io/style/color.html#color-color-palette
+// https://github.com/angular/components/blob/main/src/material/core/theming/_palette.scss
+
+// Theme
+$primary-palette: mat.$blue-palette;
+$tertiary-palette: mat.$orange-palette;

@@ -1,0 +1,24 @@
+@use '@angular/material' as mat;
+@import './basic_theme_variables';
+
+@include mat.core();
+
+
+// Define a theme.
+$theme: mat.define-theme((
+    color: (
+        theme-type: light,
+        primary: $primary-palette,
+        tertiary: $tertiary-palette,
+    ),
+    density: (
+        scale: 0,
+    )
+));
+
+// Include all theme styles for the components.
+:root {
+    @include mat.all-component-themes($theme);
+
+    @include mat.typography-hierarchy($theme);
+}
