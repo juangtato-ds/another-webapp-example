@@ -2,6 +2,12 @@
 
 Awesome description!
 
+- [Song Analyser](#song-analyser)
+  - [Prerequisites](#prerequisites)
+  - [Local](#local)
+    - [Configuration](#configuration)
+    - [Running](#running)
+
 ## Prerequisites
 
 - python 3.10
@@ -21,18 +27,35 @@ Awesome description!
     pre-commit install
     ```
 
-## Configuration
+## Local
+
+### Configuration
 
 Create a `.env` file in this folder with the parameters in the example:
 
 ```
+# APP
 APP_REST_HOST=localhost
 APP_REST_PORT=5000
 APP_REST_RELOAD=True
 APP_LOG_LEVEL=debug
+
+# LYRICS SEARCH
+APP_LYRICS_SOURCE=musixmatch
+APP_LYRICS_APIKEY=your-api-key
+
+# LYRICS ANALYSER
+APP_LYRICS_ANALYSER_SOURCE=openai
+APP_LYRICS_ANALYSER_APIKEY=your-api-key
+
+# SQL
+APP_SQL_username=postgres
+APP_SQL_password=postgres
+APP_SQL_host=localhost
+APP_SQL_database=demo
 ```
 
-## Local
+### Running
 
 ```bash
 ./run-api.sh
