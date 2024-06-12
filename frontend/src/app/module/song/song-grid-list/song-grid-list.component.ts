@@ -9,7 +9,9 @@ import { SongService } from '../song.service';
 import { SongSummary } from '../model/song.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of } from 'rxjs';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { SongFormDialogComponent } from '../song-form-dialog/song-form-dialog.component';
 
 @Component({
   selector: 'app-song-grid-list',
@@ -28,11 +30,15 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SongGridListComponent {
-  private songService = inject(SongService)
+  private songService = inject(SongService);
+  private router = inject(Router);
+  private activatedRouter = inject(ActivatedRoute);
 
   songList: Signal<Array<SongSummary>>
 
-  constructor() {
+  constructor(
+    private dialog: MatDialog
+  ) {
     this.songList = toSignal(
       this.songService.songSummaryList()
         .pipe(
@@ -43,6 +49,30 @@ export class SongGridListComponent {
         ),
       { initialValue: [] }
     );
+  }
+
+  add(): void {
+    const dialogRef = this.dialog.open(SongFormDialogComponent, { data: {} });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.songService.create(result).subscribe({
+          next: s => this.router.navigate([s.id], { relativeTo: this.activatedRouter }),
+          error: this.processError
+        });
+        // TODO loading animation
+      }
+    });
+  }
+
+  private processError(e: any): void {
+    console.error(e);
+    if (e.status == 400) {
+      alert('Invalid request');
+    } else if (e.status == 422) {
+      alert('Song not found (or lyrics are missing)');
+    } else {
+      alert('Unexpected error');
+    }
   }
 
 }

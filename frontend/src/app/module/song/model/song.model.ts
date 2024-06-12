@@ -11,3 +11,9 @@ export interface Song {
     lyrics: string;
     countryList: Array<string>;
 }
+
+export interface SongForm {
+    id?: string;
+    artist: string;
+    title: string;
+}
