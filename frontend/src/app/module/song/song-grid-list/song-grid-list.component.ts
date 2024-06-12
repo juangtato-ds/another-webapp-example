@@ -9,7 +9,6 @@ import { SongService } from '../song.service';
 import { SongSummary } from '../model/song.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of } from 'rxjs';
-import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -19,7 +18,6 @@ import { RouterLink } from '@angular/router';
     CommonModule,
     RouterLink,
     MatButtonModule,
-    MatCardModule,
     MatIconModule,
     MatTooltipModule,
     FloatingButtonsComponent,

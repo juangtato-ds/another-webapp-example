@@ -3,18 +3,9 @@
     <div class="row">
         @if (songList().length > 0) {
         <div class="col-4 mb-2" *ngFor="let song of songList()">
-            <mat-card class="w-100">
-                <mat-card-header>
-                    <mat-card-title>{{ song.title }}</mat-card-title>
-                    <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-actions>
-                    <a mat-button [routerLink]="song.id">Check lyrics</a>
-                </mat-card-actions>
-            </mat-card>
+            <app-song-card [song]="song"></app-song-card>
         </div>
         } @else {
-
         <div class="col">
             <p><b>No songs yet, add one in the button below</b></p>
         </div>
@@ -22,10 +13,6 @@
     </div>
 
 </div>
-
-<ng-template #myCard>
-    <app-song-card></app-song-card>
-</ng-template>
 
 <app-floating-buttons>
     <button mat-fab class="ms-1" matTooltip="Add Song" matTooltipPosition="above" aria-label="Add Song" color="primary">
