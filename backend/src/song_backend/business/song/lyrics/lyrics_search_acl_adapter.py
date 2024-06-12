@@ -9,4 +9,4 @@ class LyricsSearchAclAdapter(metaclass=abc.ABCMeta):
     async def find_song_and_lyrics(
         self, command: SongSearchAclCommand
     ) -> SongWithLyricsSearchResult:
-        raise NotImplementedError
+        raise NotImplementedError()

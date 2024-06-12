@@ -2,6 +2,7 @@ from fastapi import APIRouter, FastAPI
 import pkgutil
 import importlib
 from song_backend_rest import endpoints
+from song_backend_rest.exception.exception_handler import default_exception_handler
 
 
 def _retrieve_sub_modules(root_module: object) -> dict:
@@ -25,6 +26,7 @@ def _app_factory() -> FastAPI:
         title="Song Lyrics Analyser",
         description="Another POC",
         version="0.0.0",
+        exception_handlers=default_exception_handler
     )
     _load_modules(app=result, root_module=endpoints)
     return result

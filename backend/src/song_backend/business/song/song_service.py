@@ -1,6 +1,11 @@
 from uuid import uuid4
 
 from sqlalchemy import Engine
+from song_backend.base.exception.exceptions import (
+    ElementNotFoundException,
+    InternalRuntimeException,
+    UnprocessableEntityException,
+)
 from song_backend.business.song.lyrics.lyrics_command import SongSearchAclCommand
 from song_backend.business.song.lyrics.lyrics_search_acl_adapter import LyricsSearchAclAdapter
 from song_backend.business.song.lyrics_analyser.lyrics_analyser_acl_adapter import (
@@ -48,7 +53,7 @@ class SongService:
     def get(self, song_id: str) -> Song:
         result = self._song_storage.find(song_id)
         if result is None:
-            raise RuntimeError("Not found")  # TODO change the exception
+            raise ElementNotFoundException(f"Song {song_id} was not found")
         return result
 
     async def add_song(self, command: SongAddCommand) -> Lyrics:
@@ -60,7 +65,9 @@ class SongService:
         )
 
         if not lyrics_search.lyrics.strip():
-            raise RuntimeError("Song cannot be added: empty lyrics")
+            raise UnprocessableEntityException(
+                f"Song {lyrics_search.title} cannot be added, no lyrics found"
+            )
 
         analysis = await self._lyrics_analyser_adapter.analyse(
             LyricsAnalyserCommand(lyrics=lyrics_search.lyrics)
@@ -93,9 +100,7 @@ class SongService:
         song = self.get(song_id)
         lyrics = self._lyrics_storage.get_lyrics(song_id)
         if lyrics is None:
-            raise RuntimeError(
-                "This is a bad error, we only accept songs with lyrics"
-            )  # TODO change to internal exception
+            raise InternalRuntimeException("No lyrics found in storage. Contact administrator")
         return Lyrics(song=song, lyrics=lyrics)
 
 

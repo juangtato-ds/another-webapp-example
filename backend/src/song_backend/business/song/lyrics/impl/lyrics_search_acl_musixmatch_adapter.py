@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import json
 from typing import Any
 import aiohttp
+from song_backend.base.exception.exceptions import UnprocessableEntityException
 from song_backend.business.song.lyrics.lyrics_command import SongSearchAclCommand
 from song_backend.business.song.lyrics.lyrics_search_acl_adapter import LyricsSearchAclAdapter
 from song_backend.business.song.lyrics.lyrics_search_result import SongWithLyricsSearchResult
@@ -25,6 +26,7 @@ class LyricsSearchAclMusixmatchAdapter(LyricsSearchAclAdapter):
 
     @staticmethod
     def _traverse_dict(path: list[str | int], data: dict[str | int, Any]) -> Any:
+        # TODO quick and dirty
         try:
             current: Any = data
             for item in path:
@@ -43,7 +45,9 @@ class LyricsSearchAclMusixmatchAdapter(LyricsSearchAclAdapter):
     def _secure_get(data: dict[str, str], key: str) -> Any:
         result = data.get(key)
         if result is None:
-            raise RuntimeError("another fake exception")  # TODO add custom exception
+            raise UnprocessableEntityException(
+                "Couldn't extract all necessary information from Musixmatch"
+            )
         return result
 
     def _domain_url(self, domain: str) -> str:
@@ -85,12 +89,16 @@ class LyricsSearchAclMusixmatchAdapter(LyricsSearchAclAdapter):
             async with session.get(self._domain_url("track.search"), params=params) as response:
                 track = self._identify_first_track(json.loads(await response.text()))
             if track is None:
-                raise RuntimeError()  # TODO place a proper exception
+                raise UnprocessableEntityException(
+                    f"Song {command.song_title} not found in Musixmatch service"
+                )
             params = self._params({"track_id": track.track_id})
             async with session.get(self._domain_url("track.lyrics.get"), params=params) as response:
                 lyrics = self._identify_lyrics(json.loads(await response.text()))
             if lyrics is None or lyrics.strip() == "":
-                raise RuntimeError()  # TODO place a proper exception
+                raise UnprocessableEntityException(
+                    f"No lyrics found for {command.song_title} in musixmatch"
+                )
 
         return SongWithLyricsSearchResult(
             author=track.artist_name, title=track.track_name, lyrics=lyrics
