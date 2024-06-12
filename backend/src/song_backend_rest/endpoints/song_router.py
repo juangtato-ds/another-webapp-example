@@ -30,7 +30,7 @@ def _map_song_full_response(data: Lyrics) -> SongFullResponse:
         artist=data.song.author,
         title=data.song.title,
         lyrics=data.lyrics,
-        contry_list=data.song.country_list.copy(),
+        country_list=data.song.country_list.copy(),
     )
 
 
