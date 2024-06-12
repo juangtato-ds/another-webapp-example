@@ -50,6 +50,16 @@ class SongService:
         self._song_storage = song_storage
         self._lyrics_storage = lyrics_storage
 
+    @staticmethod
+    def _clean_country_list(country_list: list[str]) -> list[str]:
+        result: set[str] = set()
+        for country in country_list:
+            actual_country = country.strip().lower().capitalize()
+            if actual_country != "":
+                result.add(actual_country)
+
+        return [c for c in result]
+
     def get(self, song_id: str) -> Song:
         result = self._song_storage.find(song_id)
         if result is None:
@@ -73,9 +83,7 @@ class SongService:
             LyricsAnalyserCommand(lyrics=lyrics_search.lyrics)
         )
         # Clean country list and remove duplicates (just-in-case)
-        country_list = [
-            c for c in set(map(lambda c: c.strip().lower().capitalize(), analysis.country_list))
-        ]
+        country_list = self._clean_country_list(analysis.country_list)
 
         # At this point everything is fine
         song = Song(

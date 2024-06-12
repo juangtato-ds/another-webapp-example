@@ -1,6 +1,6 @@
-from typing import Final
+from typing import Annotated, Final
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Body, status
 
 from song_backend.business.song.model.command import SongAddCommand
 from song_backend.business.song.model.lyrics import Lyrics
@@ -15,6 +15,13 @@ router = APIRouter(
     prefix=ROUTER_PREFIX,
     tags=[ROUTER_TAG],
 )
+
+_add_song_examples = [
+    SongAddRequest(artist="Gente de zona", title="La gozadera"),  # a bunch of countries
+    SongAddRequest(title="I'm coming home", artist="Alex Band"),  # song not found
+    SongAddRequest(artist="Alestorm", title="Mexico"),  # one country
+    SongAddRequest(artist="Rainbow", title="The Temple of the King"),  # no countries
+]
 
 
 def _map_song_full_response(data: Lyrics) -> SongFullResponse:
@@ -35,7 +42,7 @@ def _map_song_full_response(data: Lyrics) -> SongFullResponse:
 )
 async def add_song(
     song_service: SongServiceDep,
-    request: SongAddRequest,
+    request: Annotated[SongAddRequest, Body(examples=_add_song_examples)],
 ) -> SongFullResponse:
     return _map_song_full_response(
         await song_service.add_song(SongAddCommand(author=request.artist, title=request.title))

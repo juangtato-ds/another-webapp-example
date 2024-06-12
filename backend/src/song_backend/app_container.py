@@ -10,6 +10,9 @@ from song_backend.business.song.lyrics.lyrics_search_acl_adapter import LyricsSe
 from song_backend.business.song.lyrics_analyser.impl.lyrics_analyser_acl_dummy_adapter import (
     LyricsAnalyserAclDummyAdapter,
 )
+from song_backend.business.song.lyrics_analyser.impl.openai.lyrics_analyser_acl_openai_adapter import (
+    LyricsAnalyserAclOpenaiAdapter,
+)
 from song_backend.business.song.lyrics_analyser.lyrics_analyser_acl_adapter import (
     LyricsAnalyserAclAdapter,
 )
@@ -62,7 +65,9 @@ class AppContainer:
                 self._config.lyrics_analyser.source == "openai"
                 and self._config.lyrics_analyser.apikey is not None
             ):
-                raise NotImplementedError()
+                self._lyrics_analyser_acl = LyricsAnalyserAclOpenaiAdapter(
+                    self._config.lyrics_analyser.apikey
+                )
             else:
                 # fallback
                 self._lyrics_analyser_acl = LyricsAnalyserAclDummyAdapter()
