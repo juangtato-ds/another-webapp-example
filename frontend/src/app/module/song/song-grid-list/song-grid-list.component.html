@@ -1,22 +1,26 @@
 <h1>Song Catalog</h1>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-4">
-            <ng-container *ngTemplateOutlet="myCard"></ng-container>
+        @if (songList().length > 0) {
+        <div class="col-4 mb-2" *ngFor="let song of songList()">
+            <mat-card class="w-100">
+                <mat-card-header>
+                    <mat-card-title>{{ song.title }}</mat-card-title>
+                    <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-actions>
+                    <a mat-button [routerLink]="song.id">Check lyrics</a>
+                </mat-card-actions>
+            </mat-card>
         </div>
-        <div class="col-4">
-            <ng-container *ngTemplateOutlet="myCard"></ng-container>
+        } @else {
+
+        <div class="col">
+            <p><b>No songs yet, add one in the button below</b></p>
         </div>
-        <div class="col-4">
-            <ng-container *ngTemplateOutlet="myCard"></ng-container>
-        </div>
-        <div class="col-4">
-            <ng-container *ngTemplateOutlet="myCard"></ng-container>
-        </div>
-        <div class="col-4">
-            <ng-container *ngTemplateOutlet="myCard"></ng-container>
-        </div>
+        }
     </div>
+
 </div>
 
 <ng-template #myCard>
@@ -24,8 +28,7 @@
 </ng-template>
 
 <app-floating-buttons>
-    <button mat-fab class="ms-1" matTooltip="Add Song" matTooltipPosition="above" aria-label="Add Song"
-        color="primary">
+    <button mat-fab class="ms-1" matTooltip="Add Song" matTooltipPosition="above" aria-label="Add Song" color="primary">
         <mat-icon>add</mat-icon>
     </button>
 </app-floating-buttons>
