@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>
+    @if (data.song) {
+        Edit song
+    } @else {
+        New song
+    }
+</h2>
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field class="d-block mb-2">
+    <mat-label>Artist</mat-label>
+    <input matInput formControlName="artist" />
+    <mat-error>
+        <b>Required</b> field.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="d-block">
+    <mat-label>Song title</mat-label>
+    <input matInput formControlName="title" />
+    <mat-error>
+        <b>Required</b> field.
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-button (click)="save()" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

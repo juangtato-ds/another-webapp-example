@@ -1,0 +1,6 @@
+@use "sass:map";
+@use '@angular/material' as mat;
+
+// Theme
+$primary-palette: mat.$blue-palette;
+$tertiary-palette: mat.$orange-palette;
