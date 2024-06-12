@@ -3,6 +3,9 @@ from song_backend.app_config_loader import AppConfigLoader
 from song_backend.business.song.lyrics.impl.lyrics_search_acl_dummy_adapter import (
     LyricsSearchAclDummyAdapter,
 )
+from song_backend.business.song.lyrics.impl.lyrics_search_acl_musixmatch_adapter import (
+    LyricsSearchAclMusixmatchAdapter,
+)
 from song_backend.business.song.lyrics.lyrics_search_acl_adapter import LyricsSearchAclAdapter
 from song_backend.business.song.lyrics_analyser.impl.lyrics_analyser_acl_dummy_adapter import (
     LyricsAnalyserAclDummyAdapter,
@@ -47,7 +50,7 @@ class AppContainer:
                 self._config.lyrics.source == "musixmatch"
                 and self._config.lyrics.apikey is not None
             ):
-                raise NotImplementedError()
+                self._lyrics_acl = LyricsSearchAclMusixmatchAdapter(self._config.lyrics.apikey)
             else:
                 # fallback
                 self._lyrics_acl = LyricsSearchAclDummyAdapter()
