@@ -1,1 +1,14 @@
-LOADED
+<!-- Creates a layout with a left and right sidenav and implicit content. -->
+<div class="sidenav-layout">
+    <mat-toolbar class="sidenav-toolbar" color="primary">
+        <button mat-icon-button aria-label="Toggle navigation menu" (click)="nothing()">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <span class="ps-3">Song Analyser</span>
+        <span class="spacer"></span>
+        <button mat-icon-button routerLink="/">
+            <mat-icon>home</mat-icon>
+        </button>
+    </mat-toolbar>
+</div>

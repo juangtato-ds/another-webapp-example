@@ -1,0 +1,46 @@
+@use "sass:map";
+@use '../theme/basic_theme_variables' as vars;
+
+.sidenav-layout {
+    display: flex;
+    flex-flow: column;
+
+    height: 100%;
+    width: 100%;
+
+    .sidenav-toolbar {
+        .spacer {
+            flex: 1 1 auto;
+        }
+    }
+
+    .sidenav-sidenav-container {
+        .sidenav-item {
+            * {
+                vertical-align: middle;
+
+                &+.label {
+                    margin-left: 0.5em;
+                }
+            }
+
+            &[href] {
+                cursor: pointer;
+            }
+
+            &.active-link {
+                background-color: map.get(vars.$primary-palette, 50) !important;
+                cursor: inherit;
+            }
+
+            &+mat-list-item {
+                border-top: 1px solid gray; // TODO color hack
+            }
+        }
+
+        mat-sidenav-content {
+            margin-left: 57px;
+        }
+    }
+
+}
