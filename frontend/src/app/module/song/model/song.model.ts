@@ -17,3 +17,7 @@ export interface SongForm {
     artist: string;
     title: string;
 }
+
+export interface ArtistMap {
+    [key: string]: Array<SongSummary>;
+}

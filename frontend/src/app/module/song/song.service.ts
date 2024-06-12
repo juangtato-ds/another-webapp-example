@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable, map } from 'rxjs';
-import { Song, SongForm, SongSummary } from './model/song.model';
+import { Observable, catchError, map, of } from 'rxjs';
+import { ArtistMap, Song, SongForm, SongSummary } from './model/song.model';
 import { SongResponse } from './model/song-api.model';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 
@@ -34,6 +34,22 @@ export class SongService {
 
   songSummaryList(): Observable<Array<SongSummary>> {
     return this.http.get<Array<SongSummary>>(this.rootUrl).pipe(map(sortSongs));
+  }
+
+  artistMap(): Observable<ArtistMap> {
+    return this.songSummaryList().pipe(
+      catchError(e => { // errors can be checked here
+        alert("Couldn't retrieve song catalog");
+        return of([]);
+      }),
+      map(songList => songList.reduce((acc, song) => {
+        if (!acc[song.artist]) {
+          acc[song.artist] = [];
+        }
+        acc[song.artist].push(song);
+        return acc;
+      }, {} as ArtistMap))
+    )
   }
 
   get(songId: string): Observable<Song> {

@@ -1,5 +1,6 @@
 <section>
     <mat-nav-list>
+        <!-- TODO create templates + iterate over config -->
         <a mat-list-item class="sidenav-item" routerLink="/" (click)="navigate($event)">
             <mat-icon mat-list-icon matTooltip="Go to home" matTooltipPosition="right">
                 home
@@ -7,11 +8,20 @@
             <span class="label">Home</span>
         </a>
 
-        <a mat-list-item routerLinkActive="active-link" class="sidenav-item" routerLink="/song" (click)="navigate($event)">
+        <a mat-list-item routerLinkActive="active-link" class="sidenav-item" routerLink="/song"
+            (click)="navigate($event)">
             <mat-icon mat-list-icon matTooltip="List songs" matTooltipPosition="right">
                 library_music
             </mat-icon>
             <span class="label">Songs</span>
+        </a>
+
+        <a mat-list-item routerLinkActive="active-link" class="sidenav-item" routerLink="/artist-song"
+            (click)="navigate($event)">
+            <mat-icon mat-list-icon matTooltip="Artist catalog" matTooltipPosition="right">
+                lyrics
+            </mat-icon>
+            <span class="label">Artist</span>
         </a>
 
     </mat-nav-list>
