@@ -15,6 +15,11 @@ function mapSong(s: SongResponse): Song {
   };
 }
 
+function sortSongs(list: Array<SongSummary>): Array<SongSummary> {
+  // TODO it is preferable to sort in the from, but this is for playing a little
+  return list.sort((a, b) => a.title.localeCompare(b.title));
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,7 +33,7 @@ export class SongService {
   ) { }
 
   songSummaryList(): Observable<Array<SongSummary>> {
-    return this.http.get<Array<SongSummary>>(this.rootUrl);
+    return this.http.get<Array<SongSummary>>(this.rootUrl).pipe(map(sortSongs));
   }
 
   get(songId: string): Observable<Song> {
