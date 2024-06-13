@@ -15,21 +15,3 @@ services:
       timeout: 60s
       retries: 5
       start_period: 80s
-  backend:
-    container_name: song-backend
-    image: local/song-backend
-    build:
-      context: ./backend
-    env_file: .env
-    depends_on:
-      db:
-        condition: service_healthy
-  web:
-    container_name: song-web
-    image: local/song-web
-    build:
-      context: ./frontend
-    ports:
-      - 80:80
-    depends_on:
-      - backend

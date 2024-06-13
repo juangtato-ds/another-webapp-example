@@ -18,7 +18,7 @@ export abstract class AbstractAddSongComponent {
     }
 
     private processError(e: any): void {
-        console.error(e);
+        console.log('Error', e);
         if (e.status == 400) {
             alert('Invalid request');
         } else if (e.status == 422) {
@@ -36,7 +36,7 @@ export abstract class AbstractAddSongComponent {
             if (result) {
                 this.songService.create(result).subscribe({
                     next: s => this.router.navigate([s.id], { relativeTo: this.activatedRouter }),
-                    error: this.processError
+                    error: e => this.processError(e)
                 });
                 // TODO loading animation
             }
