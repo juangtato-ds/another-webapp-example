@@ -1,5 +1,5 @@
-import { Song } from "../model/song.model";
+import { SongForm } from "../model/song.model";
 
 export interface SongFormDialogData {
-    song?: Song
+    song?: SongForm
 }

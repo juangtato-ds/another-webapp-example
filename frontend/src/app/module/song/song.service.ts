@@ -58,7 +58,7 @@ export class SongService {
     );
   }
 
-  form(song?: Song) {
+  form(song?: SongForm) {
     return this.nfb.group({
       id: song?.id,
       artist: [song?.artist || '', Validators.required],
