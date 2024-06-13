@@ -1,0 +1,35 @@
+services:
+  db:
+    container_name: song-db
+    image: postgres:16-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=demo
+      - PGUSER=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "demo"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+  backend:
+    container_name: song-backend
+    image: local/song-backend
+    build:
+      context: ./backend
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+  web:
+    container_name: song-web
+    image: local/song-web
+    build:
+      context: ./frontend
+    ports:
+      - 80:80
+    depends_on:
+      - backend
